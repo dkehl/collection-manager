@@ -145,16 +145,24 @@ const UPCItemAddForm = () => {
       });
       const payload = await response.json() as {
         message?: string;
+        detail?: string;
       };
 
+      const outputMessage = payload.message
+        ?? (response.ok
+          ? "UPC item saved."
+          : "UPC item could not be saved.");
       setMessage(
-        payload.message
-          ?? (response.ok
-            ? "UPC item saved."
-            : "UPC item could not be saved."),
+        payload.detail
+          ? `${outputMessage} Detail: ${payload.detail}`
+          : outputMessage,
       );
-    } catch {
-      setMessage("UPC item could not be saved.");
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? `UPC item could not be saved. Detail: ${error.message}`
+          : "UPC item could not be saved.",
+      );
     }
   };
 

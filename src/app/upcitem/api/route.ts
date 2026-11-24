@@ -22,8 +22,15 @@ export const POST = async (request: Request) => {
   const parsedInput = UPCItemInputSchema.safeParse(body);
 
   if (!parsedInput.success) {
+    const detail = parsedInput.error.issues
+      .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+      .join("; ");
+
     return NextResponse.json(
-      { message: "The UPC item data is invalid." },
+      {
+        message: "The UPC item data is invalid.",
+        detail,
+      },
       { status: 400 },
     );
   }
@@ -32,8 +39,11 @@ export const POST = async (request: Request) => {
 
   if (!result.ok) {
     return NextResponse.json(
-      { message: result.message },
-      { status: 409 },
+      {
+        message: result.message,
+        detail: result.detail,
+      },
+      { status: result.message.includes("already exists") ? 409 : 500 },
     );
   }
 

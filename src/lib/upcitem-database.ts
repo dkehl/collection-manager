@@ -99,10 +99,15 @@ const insertUPCItem = (input: UPCItemInput) => {
       return {
         ok: false as const,
         message: "An item with this barcode already exists.",
+        detail: error.message,
       };
     }
 
-    throw error;
+    return {
+      ok: false as const,
+      message: "UPC item could not be stored.",
+      detail: error instanceof Error ? error.message : "Unknown database error.",
+    };
   }
 };
 
