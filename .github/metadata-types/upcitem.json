@@ -1,0 +1,23 @@
+{
+  "id": "upcitem",
+  "name": "UPCItem",
+  "barcodeTypes": [
+    "UPC-A",
+    "EAN-13"
+  ],
+  "provider": {
+    "id": "upcitemdb",
+    "name": "UPCItemDB",
+    "plan": "free-trial",
+    "lookupUrlEnvironmentVariable": "UPCITEMDB_API_URL",
+    "defaultLookupUrl": "https://api.upcitemdb.com/prod/trial/lookup",
+    "apiKeyEnvironmentVariable": "UPCITEMDB_API_KEY",
+    "timeoutEnvironmentVariable": "UPCITEMDB_REQUEST_TIMEOUT_MS",
+    "defaultTimeoutMilliseconds": 10000
+  },
+  "routes": {
+    "add": "/upcitem/add",
+    "lookup": "/upcitem/lookup/api",
+    "view": "/upcitem/view"
+  }
+}
